@@ -1,0 +1,67 @@
+@model InscriptionViewModel
+@{
+    ViewData["Title"] = "Créer un compte";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card p-4 mt-3">
+            <div class="text-center mb-4">
+                <i class="bi bi-person-plus fs-1 text-primary"></i>
+                <h4 class="fw-bold mt-2">Créer un compte citoyen</h4>
+                <p class="text-muted small">Accédez à vos demandes d'état civil en ligne</p>
+            </div>
+
+            <form asp-action="Inscription" method="post">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="All" class="alert alert-danger small py-2" style="display:@(ViewContext.ModelState.IsValid ? "none" : "block")"></div>
+
+                <div class="row g-3">
+                    <div class="col-6">
+                        <label asp-for="Nom" class="form-label fw-semibold small"></label>
+                        <input asp-for="Nom" class="form-control" placeholder="OBAME" />
+                        <span asp-validation-for="Nom" class="text-danger small"></span>
+                    </div>
+                    <div class="col-6">
+                        <label asp-for="Prenom" class="form-label fw-semibold small"></label>
+                        <input asp-for="Prenom" class="form-control" placeholder="Jean-Pierre" />
+                        <span asp-validation-for="Prenom" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <label asp-for="Email" class="form-label fw-semibold small"></label>
+                    <input asp-for="Email" class="form-control" placeholder="exemple@gmail.com" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="mt-3">
+                    <label asp-for="MotDePasse" class="form-label fw-semibold small"></label>
+                    <input asp-for="MotDePasse" class="form-control" placeholder="Min. 8 caractères" />
+                    <span asp-validation-for="MotDePasse" class="text-danger small"></span>
+                </div>
+
+                <div class="mt-3">
+                    <label asp-for="ConfirmationMotDePasse" class="form-label fw-semibold small"></label>
+                    <input asp-for="ConfirmationMotDePasse" class="form-control" placeholder="Répétez le mot de passe" />
+                    <span asp-validation-for="ConfirmationMotDePasse" class="text-danger small"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mt-4">
+                    <i class="bi bi-person-check me-2"></i>Créer mon compte
+                </button>
+            </form>
+
+            <hr class="my-3">
+            <p class="text-center small mb-0">
+                Déjà inscrit ?
+                <a asp-action="Connexion" class="text-primary fw-semibold">Se connecter</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

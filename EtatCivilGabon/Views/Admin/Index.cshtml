@@ -1,0 +1,245 @@
+@model TableauDeBordAdminViewModel
+@{
+    ViewData["Title"] = "Administration";
+}
+
+<!-- En-tête -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-0">
+            <i class="bi bi-speedometer2 me-2 text-warning"></i>Tableau de bord
+        </h4>
+        <small class="text-muted">Vue d'ensemble de la plateforme État Civil Gabon</small>
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-action="ExporterCsv" class="btn btn-outline-success btn-sm">
+            <i class="bi bi-download me-1"></i>Export CSV
+        </a>
+        <a asp-action="Agents" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-people me-1"></i>Agents
+        </a>
+        <a asp-action="Demandes" class="btn btn-primary btn-sm">
+            <i class="bi bi-folder2-open me-1"></i>Tous les dossiers
+        </a>
+    </div>
+</div>
+
+<!-- KPIs principaux -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="card p-3 text-center h-100">
+            <div class="fs-1 fw-bold text-primary">@Model.TotalDemandes</div>
+            <div class="text-muted small">Demandes totales</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card p-3 text-center h-100 border-start border-4 border-warning">
+            <div class="fs-1 fw-bold text-warning">@Model.TotalEnAttente</div>
+            <div class="text-muted small">En attente</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card p-3 text-center h-100 border-start border-4 border-success">
+            <div class="fs-1 fw-bold text-success">@Model.TotalPret</div>
+            <div class="text-muted small">Prêts</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card p-3 text-center h-100 border-start border-4 border-danger">
+            <div class="fs-1 fw-bold text-danger">@Model.TotalRejete</div>
+            <div class="text-muted small">Rejetés</div>
+        </div>
+    </div>
+</div>
+
+<!-- KPIs secondaires -->
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card p-3 text-center h-100">
+            <div class="fs-3 fw-bold" style="color:#003DA5;">@Model.DelaiMoyenTraitement j</div>
+            <div class="text-muted small">Délai moyen de traitement</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 text-center h-100">
+            <div class="fs-3 fw-bold text-danger">@Model.TauxRejet %</div>
+            <div class="text-muted small">Taux de rejet</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 text-center h-100">
+            <div class="fs-3 fw-bold" style="color:#009E60;">@Model.NombreAgents</div>
+            <div class="text-muted small">Agents actifs</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+
+    <!-- Répartition par type d'acte -->
+    <div class="col-lg-5">
+        <div class="card h-100">
+            <div class="card-header bg-white fw-semibold py-3">
+                <i class="bi bi-pie-chart me-2 text-primary"></i>Répartition par type d'acte
+            </div>
+            <div class="card-body">
+                @{
+                    var typesActes = new[]
+                    {
+                        ("Acte de naissance", Model.TotalActeNaissance, "#003DA5"),
+                        ("Acte de mariage",   Model.TotalActeMariage,   "#009E60"),
+                        ("Acte de décès",     Model.TotalActeDeces,     "#FCD116"),
+                    };
+                    int totalTypes = Model.TotalActeNaissance + Model.TotalActeMariage + Model.TotalActeDeces;
+                }
+                @foreach (var (label, count, couleur) in typesActes)
+                {
+                    int pct = totalTypes > 0 ? (int)Math.Round((double)count / totalTypes * 100) : 0;
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between small mb-1">
+                            <span>@label</span>
+                            <span class="fw-semibold">@count (@pct%)</span>
+                        </div>
+                        <div class="progress" style="height:10px;">
+                            <div class="progress-bar" role="progressbar"
+                                 style="width:@pct%;background-color:@couleur;"
+                                 aria-valuenow="@pct" aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <hr class="my-3">
+
+                <!-- Répartition par statut -->
+                @{
+                    var statuts = new[]
+                    {
+                        ("En attente", Model.TotalEnAttente, "#6c757d"),
+                        ("En cours",   Model.TotalEnCours,   "#ffc107"),
+                        ("Prêt",       Model.TotalPret,      "#009E60"),
+                        ("Rejeté",     Model.TotalRejete,    "#dc3545"),
+                    };
+                }
+                <div class="fw-semibold small mb-2">Répartition par statut</div>
+                @foreach (var (label, count, couleur) in statuts)
+                {
+                    int pct = Model.TotalDemandes > 0
+                        ? (int)Math.Round((double)count / Model.TotalDemandes * 100)
+                        : 0;
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between small mb-1">
+                            <span>@label</span>
+                            <span class="fw-semibold">@count (@pct%)</span>
+                        </div>
+                        <div class="progress" style="height:8px;">
+                            <div class="progress-bar" role="progressbar"
+                                 style="width:@pct%;background-color:@couleur;"
+                                 aria-valuenow="@pct" aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Évolution mensuelle -->
+    <div class="col-lg-7">
+        <div class="card h-100">
+            <div class="card-header bg-white fw-semibold py-3">
+                <i class="bi bi-bar-chart me-2 text-primary"></i>
+                Demandes — 6 derniers mois
+            </div>
+            <div class="card-body d-flex flex-column justify-content-center">
+                @{
+                    int maxVal = Model.StatsMensuelles.Any()
+                        ? Model.StatsMensuelles.Max(s => s.Nombre)
+                        : 1;
+                    if (maxVal == 0) maxVal = 1;
+                }
+                <div class="d-flex align-items-end gap-2 justify-content-around"
+                     style="height:180px;">
+                    @foreach (var stat in Model.StatsMensuelles)
+                    {
+                        int hauteur = (int)Math.Round((double)stat.Nombre / maxVal * 160);
+                        if (hauteur < 4 && stat.Nombre > 0) hauteur = 4;
+                        <div class="d-flex flex-column align-items-center flex-grow-1 gap-1">
+                            <span class="small fw-semibold text-primary">
+                                @(stat.Nombre > 0 ? stat.Nombre.ToString() : "")
+                            </span>
+                            <div style="height:@hauteur px;min-height:4px;
+                                        width:100%;max-width:48px;
+                                        background:#003DA5;border-radius:4px 4px 0 0;
+                                        transition:height .3s;">
+                            </div>
+                            <span class="text-muted" style="font-size:.7rem;text-align:center;">
+                                @stat.Mois
+                            </span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dernières demandes -->
+<div class="card">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+        <h6 class="mb-0 fw-bold">
+            <i class="bi bi-clock-history me-2"></i>10 dernières demandes
+        </h6>
+        <a asp-action="Demandes" class="btn btn-outline-primary btn-sm">
+            Voir tout <i class="bi bi-arrow-right ms-1"></i>
+        </a>
+    </div>
+    <div class="card-body p-0">
+        @if (!Model.DernieresDemandes.Any())
+        {
+            <div class="text-center py-4 text-muted">
+                <i class="bi bi-inbox fs-1 d-block mb-2"></i>Aucune demande enregistrée.
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Numéro</th>
+                            <th>Type d'acte</th>
+                            <th>Demandeur</th>
+                            <th>Date</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var d in Model.DernieresDemandes)
+                        {
+                            var (cls, txt, ico) = d.Statut switch
+                            {
+                                StatutDemande.EnAttente => ("badge-en-attente", "En attente", "bi-hourglass"),
+                                StatutDemande.EnCours   => ("badge-en-cours",   "En cours",   "bi-arrow-repeat"),
+                                StatutDemande.Pret      => ("badge-pret",       "Prêt",       "bi-check-circle"),
+                                StatutDemande.Rejete    => ("badge-rejete",      "Rejeté",     "bi-x-circle"),
+                                _                       => ("bg-secondary",      "-",          "bi-question")
+                            };
+                            <tr>
+                                <td><span class="numero-suivi">@d.NumeroSuivi</span></td>
+                                <td><small>@d.TypeActe?.Libelle</small></td>
+                                <td><small>@d.PrenomDemandeur @d.NomDemandeur</small></td>
+                                <td><small>@d.DateSoumission.ToString("dd/MM/yyyy")</small></td>
+                                <td>
+                                    <span class="badge @cls">
+                                        <i class="bi @ico me-1"></i>@txt
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

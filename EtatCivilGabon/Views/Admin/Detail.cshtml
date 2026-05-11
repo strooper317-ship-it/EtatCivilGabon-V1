@@ -1,0 +1,115 @@
+@model EtatCivilGabon.Models.Demande
+@{
+    ViewData["Title"] = "Détail de la demande";
+    var (clsBadge, txtStatut, icoStatut) = Model.Statut switch
+    {
+        StatutDemande.EnAttente => ("badge-en-attente", "En attente", "bi-hourglass"),
+        StatutDemande.EnCours   => ("badge-en-cours",   "En cours",   "bi-arrow-repeat"),
+        StatutDemande.Pret      => ("badge-pret",       "Prêt",       "bi-check-circle"),
+        StatutDemande.Rejete    => ("badge-rejete",      "Rejeté",     "bi-x-circle"),
+        _                       => ("bg-secondary",      "Inconnu",    "bi-question")
+    };
+}
+
+<div class="d-flex align-items-center mb-4 gap-3">
+    <a asp-action="Demandes" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left"></i>
+    </a>
+    <div>
+        <h4 class="fw-bold mb-0">Détail de la demande</h4>
+        <small class="text-muted">@Model.TypeActe?.Libelle</small>
+    </div>
+    <span class="badge @clsBadge ms-auto fs-6 px-3 py-2">
+        <i class="bi @icoStatut me-1"></i>@txtStatut
+    </span>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+
+        <!-- Numéro et statut -->
+        <div class="card mb-4">
+            <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-3">
+                <div>
+                    <div class="text-muted small mb-1">Numéro de suivi</div>
+                    <span class="numero-suivi fs-5">@Model.NumeroSuivi</span>
+                </div>
+                <div>
+                    <div class="text-muted small mb-1">Type d'acte</div>
+                    <strong>@Model.TypeActe?.Libelle</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Informations du demandeur -->
+        <div class="card mb-4">
+            <div class="card-header bg-white fw-semibold py-3">
+                <i class="bi bi-person me-2 text-primary"></i>Informations du demandeur
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="text-muted small">Nom</div>
+                        <div class="fw-semibold">@Model.NomDemandeur</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-muted small">Prénom</div>
+                        <div class="fw-semibold">@Model.PrenomDemandeur</div>
+                    </div>
+                    <div class="col-12">
+                        <div class="text-muted small">Objet de la demande</div>
+                        <div>@Model.ObjetDemande</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-muted small">Date de soumission</div>
+                        <div>@Model.DateSoumission.ToString("dd/MM/yyyy à HH:mm")</div>
+                    </div>
+                    @if (Model.DateMiseAJour.HasValue)
+                    {
+                        <div class="col-md-6">
+                            <div class="text-muted small">Dernière mise à jour</div>
+                            <div>@Model.DateMiseAJour.Value.ToString("dd/MM/yyyy à HH:mm")</div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.CommentaireAgent))
+        {
+            <div class="card mb-4 border-start border-4 border-info">
+                <div class="card-body">
+                    <div class="fw-semibold small text-muted mb-1">Commentaire de l'agent</div>
+                    <p class="mb-0">@Model.CommentaireAgent</p>
+                </div>
+            </div>
+        }
+
+        <!-- Pièces jointes avec visualisation -->
+        <partial name="_PiecesJointes" model="Model.PiecesJointes" />
+
+    </div>
+
+    <!-- Colonne latérale -->
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header bg-white fw-semibold py-3">
+                <i class="bi bi-activity me-2 text-primary"></i>Statut du dossier
+            </div>
+            <div class="card-body text-center py-4">
+                <span class="badge @clsBadge fs-5 px-4 py-3">
+                    <i class="bi @icoStatut me-2"></i>@txtStatut
+                </span>
+                <div class="mt-3 text-muted small">
+                    Délai cible : @(Model.TypeActe?.DelaiCible ?? 0) jours ouvrés
+                </div>
+            </div>
+        </div>
+
+        <!-- Historique notifications -->
+        @if (Model.Notifications?.Any() == true)
+        {
+            <partial name="_NotificationsHistorique" model="Model.Notifications" />
+        }
+    </div>
+</div>

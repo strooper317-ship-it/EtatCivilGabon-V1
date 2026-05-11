@@ -1,0 +1,5 @@
+C:\Users\OMEN\Documents\EtatCivilGabon\EtatCivilGabon.Tests\obj\Debug\net8.0\EtatCivilGabon.Tests.csproj.AssemblyReference.cache
+C:\Users\OMEN\Documents\EtatCivilGabon\EtatCivilGabon.Tests\obj\Debug\net8.0\EtatCivilGabon.Tests.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\OMEN\Documents\EtatCivilGabon\EtatCivilGabon.Tests\obj\Debug\net8.0\EtatCivilGabon.Tests.AssemblyInfoInputs.cache
+C:\Users\OMEN\Documents\EtatCivilGabon\EtatCivilGabon.Tests\obj\Debug\net8.0\EtatCivilGabon.Tests.AssemblyInfo.cs
+C:\Users\OMEN\Documents\EtatCivilGabon\EtatCivilGabon.Tests\obj\Debug\net8.0\EtatCivilGabon.Tests.csproj.CoreCompileInputs.cache

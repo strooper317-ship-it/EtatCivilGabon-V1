@@ -1,0 +1,184 @@
+@model NouvelleDemandViewModel
+@{
+    ViewData["Title"] = "Nouvelle demande";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+
+        <div class="d-flex align-items-center mb-4 gap-3">
+            <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <div>
+                <h4 class="fw-bold mb-0">Nouvelle demande d'acte</h4>
+                <small class="text-muted">Remplissez le formulaire et joignez vos pièces justificatives</small>
+            </div>
+        </div>
+
+        <form asp-action="NouvelleDemande" method="post" enctype="multipart/form-data"
+              onsubmit="return validerFormulaire()">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="All" class="alert alert-danger small py-2"
+                 style="display:@(ViewContext.ModelState.IsValid ? "none" : "block")"></div>
+
+            <!-- Alerte type d'acte non sélectionné -->
+            <div id="alerteTypeActe" class="alert alert-danger small py-2" style="display:none;">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                Veuillez sélectionner un type d'acte avant de soumettre.
+            </div>
+
+            <!-- Type d'acte -->
+            <div class="card mb-4" id="carteTypeActe">
+                <div class="card-header bg-white fw-semibold py-3">
+                    <i class="bi bi-file-earmark-text me-2 text-primary"></i>
+                    Type d'acte demandé <span class="text-danger">*</span>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        @foreach (var type in Model.TypesActes)
+                        {
+                            <div class="col-md-4">
+                                <input type="radio" class="btn-check" name="TypeActeId"
+                                       id="type_@type.Id" value="@type.Id"
+                                       @(Model.TypeActeId == type.Id ? "checked" : "") />
+                                <label class="btn btn-outline-primary w-100 py-3" for="type_@type.Id">
+                                    <i class="bi bi-file-person d-block fs-4 mb-1"></i>
+                                    <span class="fw-semibold">@type.Libelle</span><br>
+                                    <small class="text-muted">@type.DelaiCible jours ouvrés</small>
+                                </label>
+                            </div>
+                        }
+                    </div>
+                    <span asp-validation-for="TypeActeId" class="text-danger small"></span>
+
+                    @foreach (var type in Model.TypesActes)
+                    {
+                        <div id="pieces_@type.Id" class="alert alert-info small mt-3 mb-0"
+                             style="display:none;">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <strong>Pièces requises :</strong> @type.PiecesRequises
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Informations du demandeur -->
+            <div class="card mb-4">
+                <div class="card-header bg-white fw-semibold py-3">
+                    <i class="bi bi-person me-2 text-primary"></i>Informations du demandeur
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="NomDemandeur" class="form-label fw-semibold small"></label>
+                            <input asp-for="NomDemandeur" class="form-control" placeholder="OBAME" />
+                            <span asp-validation-for="NomDemandeur" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="PrenomDemandeur" class="form-label fw-semibold small"></label>
+                            <input asp-for="PrenomDemandeur" class="form-control" placeholder="Jean-Pierre" />
+                            <span asp-validation-for="PrenomDemandeur" class="text-danger small"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="ObjetDemande" class="form-label fw-semibold small"></label>
+                            <input asp-for="ObjetDemande" class="form-control"
+                                   placeholder="Ex: Obtention de l'acte de naissance de Jean OBAME né le 01/01/1990" />
+                            <span asp-validation-for="ObjetDemande" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pièces justificatives -->
+            <div class="card mb-4">
+                <div class="card-header bg-white fw-semibold py-3">
+                    <i class="bi bi-paperclip me-2 text-primary"></i>Pièces justificatives
+                </div>
+                <div class="card-body">
+                    <div class="border border-2 rounded p-4 text-center">
+                        <i class="bi bi-cloud-upload fs-2 text-muted d-block mb-2"></i>
+                        <input asp-for="Fichiers" type="file" class="form-control"
+                               multiple accept=".pdf,.jpg,.jpeg,.png" id="fichiersInput" />
+                        <small class="text-muted d-block mt-2">
+                            Formats : PDF, JPG, PNG — Max 5 Mo par fichier
+                        </small>
+                    </div>
+                    <span asp-validation-for="Fichiers" class="text-danger small"></span>
+                    <div id="listesFichiers" class="mt-3"></div>
+                </div>
+            </div>
+
+            <div class="d-flex gap-3 justify-content-end">
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-x me-2"></i>Annuler
+                </a>
+                <button type="submit" class="btn btn-primary px-4">
+                    <i class="bi bi-send me-2"></i>Soumettre la demande
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+
+        // ── Validation avant soumission ──────────────────────────────────────
+        function validerFormulaire() {
+            const typeSelectionne = document.querySelector('input[name="TypeActeId"]:checked');
+            const alerte = document.getElementById('alerteTypeActe');
+            const carte  = document.getElementById('carteTypeActe');
+
+            if (!typeSelectionne) {
+                alerte.style.display = 'block';
+                carte.classList.add('border', 'border-danger', 'border-2');
+                carte.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return false;
+            }
+
+            alerte.style.display = 'none';
+            carte.classList.remove('border-danger');
+            return true;
+        }
+
+        // ── Afficher les pièces requises selon le type sélectionné ───────────
+        document.querySelectorAll('input[name="TypeActeId"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                document.querySelectorAll('[id^="pieces_"]').forEach(el => el.style.display = 'none');
+                const t = document.getElementById('pieces_' + this.value);
+                if (t) t.style.display = 'block';
+                document.getElementById('alerteTypeActe').style.display = 'none';
+                document.getElementById('carteTypeActe').classList.remove('border-danger');
+            });
+        });
+
+        // ── Prévisualisation des fichiers sélectionnés ───────────────────────
+        document.getElementById('fichiersInput').addEventListener('change', function () {
+            const liste = document.getElementById('listesFichiers');
+            liste.innerHTML = '';
+            if (!this.files.length) return;
+
+            const ul = document.createElement('ul');
+            ul.className = 'list-group list-group-flush';
+
+            Array.from(this.files).forEach(f => {
+                const li     = document.createElement('li');
+                li.className = 'list-group-item d-flex align-items-center gap-2 px-0';
+                const taille = (f.size / (1024 * 1024)).toFixed(2);
+                const ico    = f.type.includes('pdf') ? 'bi-file-pdf text-danger' : 'bi-file-image text-primary';
+                li.innerHTML = `
+                    <i class="bi ${ico} fs-5"></i>
+                    <span class="flex-grow-1 small">${f.name}</span>
+                    <span class="badge bg-light text-dark">${taille} Mo</span>`;
+                ul.appendChild(li);
+            });
+
+            liste.appendChild(ul);
+        });
+
+    </script>
+}

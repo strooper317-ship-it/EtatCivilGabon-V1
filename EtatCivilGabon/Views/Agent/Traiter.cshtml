@@ -1,0 +1,282 @@
+@model TraiterDemandeViewModel
+@{
+    ViewData["Title"] = "Traiter le dossier";
+    bool lectureSeule = ViewBag.LectureSeule == true;
+
+    var (clsBadge, txtStatut, icoStatut) = Model.StatutActuel switch
+    {
+        StatutDemande.EnAttente => ("badge-en-attente", "En attente", "bi-hourglass"),
+        StatutDemande.EnCours   => ("badge-en-cours",   "En cours",   "bi-arrow-repeat"),
+        StatutDemande.Pret      => ("badge-pret",       "Prêt",       "bi-check-circle"),
+        StatutDemande.Rejete    => ("badge-rejete",      "Rejeté",     "bi-x-circle"),
+        _                       => ("bg-secondary",      "Inconnu",    "bi-question")
+    };
+    var cardBorder  = lectureSeule ? "border-secondary" : "border-primary border-2";
+    var headerClass = lectureSeule ? "bg-light" : "bg-primary text-white";
+    var headerIcon  = lectureSeule ? "bi-eye" : "bi-pencil-square";
+    var headerTitle = lectureSeule ? "Statut du dossier" : "Mettre à jour le dossier";
+}
+
+<div class="d-flex align-items-center mb-4 gap-3">
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left"></i>
+    </a>
+    <div>
+        <h4 class="fw-bold mb-0">
+            @(lectureSeule ? "Consulter le dossier" : "Traiter le dossier")
+        </h4>
+        <small class="text-muted">@Model.NumeroSuivi — @Model.TypeActeLibelle</small>
+    </div>
+    <span class="badge @clsBadge ms-auto fs-6 px-3 py-2">
+        <i class="bi @icoStatut me-1"></i>@txtStatut
+    </span>
+</div>
+
+<div class="row g-4">
+
+    <!-- Colonne gauche -->
+    <div class="col-lg-7">
+
+        <!-- Informations du demandeur -->
+        <div class="card mb-4">
+            <div class="card-header bg-white fw-semibold py-3">
+                <i class="bi bi-person me-2 text-primary"></i>Informations du demandeur
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="text-muted small">Nom</div>
+                        <div class="fw-semibold">@Model.NomDemandeur</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-muted small">Prénom</div>
+                        <div class="fw-semibold">@Model.PrenomDemandeur</div>
+                    </div>
+                    <div class="col-12">
+                        <div class="text-muted small">Objet de la demande</div>
+                        <div>@Model.ObjetDemande</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-muted small">Date de soumission</div>
+                        <div>@Model.DateSoumission.ToString("dd/MM/yyyy à HH:mm")</div>
+                    </div>
+                    @if (Model.DateMiseAJour.HasValue)
+                    {
+                        <div class="col-md-6">
+                            <div class="text-muted small">Dernière mise à jour</div>
+                            <div>@Model.DateMiseAJour.Value.ToString("dd/MM/yyyy à HH:mm")</div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Pièces jointes citoyen -->
+        <div class="mb-4">
+            <partial name="_PiecesJointes" model="Model.PiecesJointes" />
+        </div>
+
+        <!-- Document final déjà envoyé -->
+        @if (!string.IsNullOrEmpty(Model.NomDocumentFinalExistant))
+        {
+            <div class="card mb-4 border-start border-4 border-success">
+                <div class="card-header bg-white fw-semibold py-3">
+                    <i class="bi bi-file-check me-2 text-success"></i>
+                    Document final envoyé au citoyen
+                </div>
+                <div class="card-body d-flex align-items-center gap-3 flex-wrap">
+                    <i class="bi bi-file-pdf text-danger fs-3"></i>
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold">@Model.NomDocumentFinalExistant</div>
+                        @if (Model.DateEnvoiDocumentExistant.HasValue)
+                        {
+                            <small class="text-muted">
+                                Envoyé le @Model.DateEnvoiDocumentExistant.Value.ToString("dd/MM/yyyy à HH:mm")
+                            </small>
+                        }
+                    </div>
+                    <a href="@Url.Action("VoirDocumentFinal", "Fichier", new { demandeId = Model.Id })"
+                       target="_blank" class="btn btn-sm btn-outline-success">
+                        <i class="bi bi-eye me-1"></i>Visualiser
+                    </a>
+                    <a href="@Url.Action("TelechargerDocumentFinal", "Fichier", new { demandeId = Model.Id })"
+                       class="btn btn-sm btn-outline-secondary">
+                        <i class="bi bi-download me-1"></i>Télécharger
+                    </a>
+                </div>
+            </div>
+        }
+
+        <!-- Commentaire précédent -->
+        @if (!string.IsNullOrEmpty(Model.CommentaireActuel))
+        {
+            <div class="card mb-4 border-start border-4 border-info">
+                <div class="card-body">
+                    <div class="fw-semibold small text-muted mb-1">Commentaire précédent</div>
+                    <p class="mb-0">@Model.CommentaireActuel</p>
+                </div>
+            </div>
+        }
+
+        <!-- Historique notifications -->
+        @{
+            var demandeCourante = ViewData["Demande"] as EtatCivilGabon.Models.Demande;
+            if (demandeCourante?.Notifications?.Any() == true)
+            {
+                <partial name="_NotificationsHistorique" model="demandeCourante.Notifications" />
+            }
+        }
+    </div>
+
+    <!-- Colonne droite : formulaire de traitement -->
+    <div class="col-lg-5">
+        <div class="card @cardBorder">
+            <div class="card-header fw-semibold py-3 @headerClass">
+                <i class="bi @headerIcon me-2"></i>@headerTitle
+            </div>
+            <div class="card-body">
+
+                @if (lectureSeule)
+                {
+                    <div class="text-center py-3">
+                        <span class="badge @clsBadge fs-5 px-4 py-3">
+                            <i class="bi @icoStatut me-2"></i>@txtStatut
+                        </span>
+                    </div>
+                    <a asp-action="Index" class="btn btn-outline-secondary w-100 mt-3">
+                        <i class="bi bi-arrow-left me-2"></i>Retour à la liste
+                    </a>
+                }
+                else
+                {
+                    <form asp-action="Traiter" method="post" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="NumeroSuivi" />
+
+                        <div asp-validation-summary="All"
+                             class="alert alert-danger small py-2"
+                             style="display:@(ViewContext.ModelState.IsValid ? "none" : "block")">
+                        </div>
+
+                        <!-- Sélection du statut -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold small">
+                                Nouveau statut <span class="text-danger">*</span>
+                            </label>
+                            <div class="d-grid gap-2">
+                                @foreach (var statut in new[]
+                                {
+                                    (StatutDemande.EnAttente, "En attente",  "badge-en-attente", "bi-hourglass"),
+                                    (StatutDemande.EnCours,   "En cours",    "badge-en-cours",   "bi-arrow-repeat"),
+                                    (StatutDemande.Pret,      "Prêt",        "badge-pret",       "bi-check-circle"),
+                                    (StatutDemande.Rejete,    "Rejeté",      "badge-rejete",      "bi-x-circle"),
+                                })
+                                {
+                                    <div>
+                                        <input type="radio" class="btn-check"
+                                               name="NouveauStatut"
+                                               id="statut_@statut.Item1"
+                                               value="@statut.Item1"
+                                               @(Model.NouveauStatut == statut.Item1 ? "checked" : "") />
+                                        <label class="btn btn-outline-secondary w-100 text-start py-2"
+                                               for="statut_@statut.Item1">
+                                            <i class="bi @statut.Item4 me-2"></i>@statut.Item2
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                            <span asp-validation-for="NouveauStatut" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Commentaire -->
+                        <div class="mb-4">
+                            <label asp-for="Commentaire" class="form-label fw-semibold small"></label>
+                            <textarea asp-for="Commentaire" class="form-control" rows="3"
+                                      id="Commentaire"
+                                      placeholder="Message pour le citoyen (obligatoire si rejeté)..."></textarea>
+                            <span asp-validation-for="Commentaire" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Document final -->
+                        <div class="mb-4" id="sectionDocumentFinal">
+                            <label asp-for="DocumentFinal" class="form-label fw-semibold small">
+                                <i class="bi bi-file-earmark-arrow-up me-1 text-success"></i>
+                                Document final à envoyer au citoyen
+                                <span class="badge bg-success ms-1" style="font-size:.7rem;">
+                                    Recommandé si Prêt
+                                </span>
+                            </label>
+                            <input asp-for="DocumentFinal" type="file"
+                                   class="form-control"
+                                   accept=".pdf,.jpg,.jpeg,.png"
+                                   id="documentFinalInput" />
+                            <span asp-validation-for="DocumentFinal" class="text-danger small"></span>
+                            <div class="form-text">
+                                PDF, JPG ou PNG — Max 10 Mo.
+                                Le citoyen pourra le visualiser et le télécharger depuis son espace.
+                            </div>
+                            <!-- Aperçu nom fichier sélectionné -->
+                            <div id="apercuDocument" class="mt-2" style="display:none;">
+                                <div class="alert alert-success py-2 small mb-0">
+                                    <i class="bi bi-check-circle me-2"></i>
+                                    <span id="nomDocumentSelectionne"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save me-2"></i>Enregistrer
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">Annuler</a>
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Commentaire obligatoire si rejeté
+        document.querySelectorAll('input[name="NouveauStatut"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                const commentaire = document.getElementById('Commentaire');
+                const sectionDoc  = document.getElementById('sectionDocumentFinal');
+                if (!commentaire) return;
+
+                if (this.value === 'Rejete') {
+                    commentaire.setAttribute('required', 'required');
+                    commentaire.placeholder = 'Obligatoire : expliquez la raison du rejet.';
+                    commentaire.classList.add('border-danger');
+                    if (sectionDoc) sectionDoc.style.display = 'none';
+                } else if (this.value === 'Pret') {
+                    commentaire.removeAttribute('required');
+                    commentaire.placeholder = 'Message pour le citoyen (optionnel)...';
+                    commentaire.classList.remove('border-danger');
+                    if (sectionDoc) sectionDoc.style.display = 'block';
+                } else {
+                    commentaire.removeAttribute('required');
+                    commentaire.placeholder = 'Message pour le citoyen (optionnel)...';
+                    commentaire.classList.remove('border-danger');
+                    if (sectionDoc) sectionDoc.style.display = 'block';
+                }
+            });
+        });
+
+        // Aperçu du document sélectionné
+        document.getElementById('documentFinalInput')?.addEventListener('change', function () {
+            const apercu = document.getElementById('apercuDocument');
+            const nom    = document.getElementById('nomDocumentSelectionne');
+            if (this.files.length > 0) {
+                nom.textContent = this.files[0].name;
+                apercu.style.display = 'block';
+            } else {
+                apercu.style.display = 'none';
+            }
+        });
+    </script>
+}

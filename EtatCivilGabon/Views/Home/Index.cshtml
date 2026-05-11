@@ -1,0 +1,92 @@
+@{
+    ViewData["Title"] = "Accueil";
+}
+
+<!-- Hero -->
+<div class="row align-items-center py-5">
+    <div class="col-lg-7">
+        <h1 class="display-5 fw-bold text-dark mb-3">
+            Plateforme de Suivi des<br>
+            <span style="color:#003DA5;">Demandes d'État Civil</span>
+        </h1>
+        <p class="lead text-muted mb-4">
+            Déposez et suivez vos demandes d'actes d'état civil en ligne,
+            sans vous déplacer. Recevez une notification dès que votre document est prêt.
+        </p>
+        <div class="d-flex gap-3 flex-wrap">
+            <a asp-controller="Compte" asp-action="Inscription"
+               class="btn btn-primary btn-lg px-4">
+                <i class="bi bi-person-plus me-2"></i>Créer un compte
+            </a>
+            <a asp-controller="Compte" asp-action="Connexion"
+               class="btn btn-outline-secondary btn-lg px-4">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Se connecter
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-5 text-center mt-4 mt-lg-0">
+        <i class="bi bi-building" style="font-size:9rem; color:#003DA5; opacity:.15;"></i>
+    </div>
+</div>
+
+<hr class="my-4">
+
+<!-- Étapes -->
+<div class="row text-center g-4 py-3">
+    <div class="col-md-4">
+        <div class="card p-4 h-100">
+            <div class="mb-3">
+                <span class="display-6" style="color:#009E60;">
+                    <i class="bi bi-1-circle-fill"></i>
+                </span>
+            </div>
+            <h5 class="fw-bold">Créez votre compte</h5>
+            <p class="text-muted small">Inscrivez-vous en quelques secondes avec votre adresse e-mail.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-4 h-100">
+            <div class="mb-3">
+                <span class="display-6" style="color:#FCD116;">
+                    <i class="bi bi-2-circle-fill"></i>
+                </span>
+            </div>
+            <h5 class="fw-bold">Soumettez votre demande</h5>
+            <p class="text-muted small">Choisissez le type d'acte et déposez vos pièces justificatives.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-4 h-100">
+            <div class="mb-3">
+                <span class="display-6" style="color:#003DA5;">
+                    <i class="bi bi-3-circle-fill"></i>
+                </span>
+            </div>
+            <h5 class="fw-bold">Suivez en temps réel</h5>
+            <p class="text-muted small">Recevez un e-mail dès que votre document est prêt à être retiré.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Types d'actes -->
+<div class="mt-5">
+    <h4 class="fw-bold mb-3">Actes disponibles</h4>
+    <div class="row g-3">
+        @foreach (var acte in new[] {
+            new { Code="ACT-NAI", Libelle="Acte de naissance",  Delai="5 jours ouvrés", Icon="bi-file-person" },
+            new { Code="ACT-MAR", Libelle="Acte de mariage",    Delai="7 jours ouvrés", Icon="bi-heart" },
+            new { Code="ACT-DEC", Libelle="Acte de décès",      Delai="5 jours ouvrés", Icon="bi-file-earmark-text" },
+        })
+        {
+            <div class="col-md-4">
+                <div class="card p-3 d-flex flex-row align-items-center gap-3">
+                    <i class="bi @acte.Icon fs-3 text-primary"></i>
+                    <div>
+                        <div class="fw-semibold">@acte.Libelle</div>
+                        <small class="text-muted"><i class="bi bi-clock me-1"></i>@acte.Delai</small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

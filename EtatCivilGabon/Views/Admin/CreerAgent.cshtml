@@ -1,0 +1,70 @@
+@model CreerAgentViewModel
+@{
+    ViewData["Title"] = "Nouvel agent";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+
+        <div class="d-flex align-items-center mb-4 gap-3">
+            <a asp-action="Agents" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <div>
+                <h4 class="fw-bold mb-0">Créer un agent</h4>
+                <small class="text-muted">Le compte aura le rôle Agent de mairie</small>
+            </div>
+        </div>
+
+        <div class="card p-4">
+            <form asp-action="CreerAgent" method="post">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="All" class="alert alert-danger small py-2"
+                     style="display:@(ViewContext.ModelState.IsValid ? "none" : "block")"></div>
+
+                <div class="row g-3">
+                    <div class="col-6">
+                        <label asp-for="Nom" class="form-label fw-semibold small"></label>
+                        <input asp-for="Nom" class="form-control" placeholder="MBADINGA" />
+                        <span asp-validation-for="Nom" class="text-danger small"></span>
+                    </div>
+                    <div class="col-6">
+                        <label asp-for="Prenom" class="form-label fw-semibold small"></label>
+                        <input asp-for="Prenom" class="form-control" placeholder="Jean" />
+                        <span asp-validation-for="Prenom" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <label asp-for="Email" class="form-label fw-semibold small"></label>
+                    <input asp-for="Email" class="form-control" placeholder="agent@mairie.ga" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="mt-3">
+                    <label asp-for="MotDePasse" class="form-label fw-semibold small"></label>
+                    <input asp-for="MotDePasse" class="form-control"
+                           placeholder="Mot de passe temporaire (min. 8 caractères)" />
+                    <span asp-validation-for="MotDePasse" class="text-danger small"></span>
+                    <div class="form-text">
+                        <i class="bi bi-info-circle me-1"></i>
+                        L'agent devra changer son mot de passe à la première connexion.
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-person-check me-2"></i>Créer le compte agent
+                    </button>
+                    <a asp-action="Agents" class="btn btn-outline-secondary">Annuler</a>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

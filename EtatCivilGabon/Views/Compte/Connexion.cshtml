@@ -1,0 +1,61 @@
+@model ConnexionViewModel
+@{
+    ViewData["Title"] = "Connexion";
+    var returnUrl = ViewData["ReturnUrl"] as string;
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-5 col-lg-4">
+        <div class="card p-4 mt-3">
+            <div class="text-center mb-4">
+                <i class="bi bi-shield-lock fs-1 text-primary"></i>
+                <h4 class="fw-bold mt-2">Connexion</h4>
+                <p class="text-muted small">Accédez à votre espace personnel</p>
+            </div>
+
+            <form asp-action="Connexion" asp-route-returnUrl="@returnUrl" method="post">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="All" class="alert alert-danger small py-2"
+                     style="display:@(ViewContext.ModelState.IsValid ? "none" : "block")"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label fw-semibold small"></label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                        <input asp-for="Email" class="form-control" placeholder="votre@email.com" />
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="MotDePasse" class="form-label fw-semibold small"></label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        <input asp-for="MotDePasse" class="form-control" placeholder="Mot de passe" />
+                    </div>
+                    <span asp-validation-for="MotDePasse" class="text-danger small"></span>
+                </div>
+
+                <div class="form-check mb-3">
+                    <input asp-for="Sesouvenir" class="form-check-input" />
+                    <label asp-for="Sesouvenir" class="form-check-label small"></label>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Se connecter
+                </button>
+            </form>
+
+            <hr class="my-3">
+            <p class="text-center small mb-0">
+                Pas encore de compte ?
+                <a asp-action="Inscription" class="text-primary fw-semibold">S'inscrire</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

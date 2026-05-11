@@ -1,0 +1,178 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|c:\\users\\omen\\documents\\etatcivilgabon\\etatcivilgabon\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|solutionrelative:etatcivilgabon\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|c:\\users\\omen\\documents\\etatcivilgabon\\etatcivilgabon\\models\\demande.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|solutionrelative:etatcivilgabon\\models\\demande.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|c:\\users\\omen\\documents\\etatcivilgabon\\etatcivilgabon\\data\\migrations\\ajoutdocumentfinal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|solutionrelative:etatcivilgabon\\data\\migrations\\ajoutdocumentfinal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|c:\\users\\omen\\documents\\etatcivilgabon\\etatcivilgabon\\migrations\\20260509003639_ajoutdocumentfinal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|solutionrelative:etatcivilgabon\\migrations\\20260509003639_ajoutdocumentfinal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|c:\\users\\omen\\documents\\etatcivilgabon\\etatcivilgabon\\data\\dbinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|solutionrelative:etatcivilgabon\\data\\dbinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|c:\\users\\omen\\documents\\etatcivilgabon\\etatcivilgabon\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|solutionrelative:etatcivilgabon\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|c:\\users\\omen\\documents\\etatcivilgabon\\etatcivilgabon\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|solutionrelative:etatcivilgabon\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|c:\\users\\omen\\documents\\etatcivilgabon\\etatcivilgabon\\views\\citoyen\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|solutionrelative:etatcivilgabon\\views\\citoyen\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|c:\\users\\omen\\documents\\etatcivilgabon\\etatcivilgabon\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}|EtatCivilGabon\\EtatCivilGabon.csproj|solutionrelative:etatcivilgabon\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "EtatCivilGabon\\Controllers\\AdminController.cs",
+              "ToolTip": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "EtatCivilGabon\\Controllers\\AdminController.cs",
+              "ViewState": "AgIAAHcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T11:03:56.226Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AjoutDocumentFinal.cs",
+              "DocumentMoniker": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\Data\\Migrations\\AjoutDocumentFinal.cs",
+              "RelativeDocumentMoniker": "EtatCivilGabon\\Data\\Migrations\\AjoutDocumentFinal.cs",
+              "ToolTip": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\Data\\Migrations\\AjoutDocumentFinal.cs",
+              "RelativeToolTip": "EtatCivilGabon\\Data\\Migrations\\AjoutDocumentFinal.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T10:04:11.15Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DbInitializer.cs",
+              "DocumentMoniker": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\Data\\DbInitializer.cs",
+              "RelativeDocumentMoniker": "EtatCivilGabon\\Data\\DbInitializer.cs",
+              "ToolTip": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\Data\\DbInitializer.cs",
+              "RelativeToolTip": "EtatCivilGabon\\Data\\DbInitializer.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T10:02:30.484Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Demande.cs",
+              "DocumentMoniker": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\Models\\Demande.cs",
+              "RelativeDocumentMoniker": "EtatCivilGabon\\Models\\Demande.cs",
+              "ToolTip": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\Models\\Demande.cs",
+              "RelativeToolTip": "EtatCivilGabon\\Models\\Demande.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAAAcAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T09:15:22.601Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\Program.cs",
+              "RelativeDocumentMoniker": "EtatCivilGabon\\Program.cs",
+              "ToolTip": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\Program.cs",
+              "RelativeToolTip": "EtatCivilGabon\\Program.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T07:00:40.038Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\appsettings.json",
+              "RelativeDocumentMoniker": "EtatCivilGabon\\appsettings.json",
+              "ToolTip": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\appsettings.json",
+              "RelativeToolTip": "EtatCivilGabon\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-05-09T01:04:30.646Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "20260509003639_AjoutDocumentFinal.cs",
+              "DocumentMoniker": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\Migrations\\20260509003639_AjoutDocumentFinal.cs",
+              "RelativeDocumentMoniker": "EtatCivilGabon\\Migrations\\20260509003639_AjoutDocumentFinal.cs",
+              "ToolTip": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\Migrations\\20260509003639_AjoutDocumentFinal.cs",
+              "RelativeToolTip": "EtatCivilGabon\\Migrations\\20260509003639_AjoutDocumentFinal.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T00:36:40.035Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Detail.cshtml",
+              "DocumentMoniker": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\Views\\Citoyen\\Detail.cshtml",
+              "RelativeDocumentMoniker": "EtatCivilGabon\\Views\\Citoyen\\Detail.cshtml",
+              "ToolTip": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\Views\\Citoyen\\Detail.cshtml",
+              "RelativeToolTip": "EtatCivilGabon\\Views\\Citoyen\\Detail.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-02T18:47:06.293Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "EtatCivilGabon\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\OMEN\\Documents\\EtatCivilGabon\\EtatCivilGabon\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "EtatCivilGabon\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-02T18:46:30.656Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

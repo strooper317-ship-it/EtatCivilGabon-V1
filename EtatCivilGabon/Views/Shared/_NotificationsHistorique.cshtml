@@ -1,0 +1,30 @@
+@using EtatCivilGabon.Models
+@model IEnumerable<Notification>
+
+@if (Model.Any())
+{
+    <div class="card mt-4">
+        <div class="card-header bg-white fw-semibold py-3">
+            <i class="bi bi-envelope me-2 text-primary"></i>
+            Historique des notifications (@Model.Count())
+        </div>
+        <ul class="list-group list-group-flush">
+            @foreach (var n in Model.OrderByDescending(n => n.DateEnvoi))
+            {
+                <li class="list-group-item d-flex align-items-start gap-3 px-3 py-2">
+                    <i class="bi @(n.EnvoyeeAvecSucces ? "bi-envelope-check text-success" : "bi-envelope-x text-danger") fs-5 mt-1"></i>
+                    <div class="flex-grow-1">
+                        <div class="small fw-semibold">@n.Message</div>
+                        <div class="text-muted" style="font-size:.78rem;">
+                            Destinataire : @n.EmailDestinataire &nbsp;·&nbsp;
+                            @n.DateEnvoi.ToString("dd/MM/yyyy à HH:mm")
+                        </div>
+                    </div>
+                    <span class="badge @(n.EnvoyeeAvecSucces ? "bg-success" : "bg-danger") align-self-center">
+                        @(n.EnvoyeeAvecSucces ? "Envoyé" : "Échec")
+                    </span>
+                </li>
+            }
+        </ul>
+    </div>
+}

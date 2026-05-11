@@ -1,0 +1,51 @@
+@model ChangerMotDePasseViewModel
+@{
+    ViewData["Title"] = "Changer le mot de passe";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card p-4 mt-3">
+            <div class="text-center mb-4">
+                <i class="bi bi-key fs-1 text-primary"></i>
+                <h4 class="fw-bold mt-2">Changer le mot de passe</h4>
+            </div>
+
+            <form asp-action="ChangerMotDePasse" method="post">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="All" class="alert alert-danger small py-2"
+                     style="display:@(ViewContext.ModelState.IsValid ? "none" : "block")"></div>
+
+                <div class="mb-3">
+                    <label asp-for="AncienMotDePasse" class="form-label fw-semibold small"></label>
+                    <input asp-for="AncienMotDePasse" class="form-control" />
+                    <span asp-validation-for="AncienMotDePasse" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="NouveauMotDePasse" class="form-label fw-semibold small"></label>
+                    <input asp-for="NouveauMotDePasse" class="form-control" />
+                    <span asp-validation-for="NouveauMotDePasse" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ConfirmationMotDePasse" class="form-label fw-semibold small"></label>
+                    <input asp-for="ConfirmationMotDePasse" class="form-control" />
+                    <span asp-validation-for="ConfirmationMotDePasse" class="text-danger small"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mt-2">
+                    <i class="bi bi-check-circle me-2"></i>Enregistrer
+                </button>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary w-100 mt-2">
+                    Annuler
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

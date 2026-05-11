@@ -1,0 +1,109 @@
+@model SuiviPublicViewModel
+@{
+    ViewData["Title"] = "Suivre une demande";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+
+        <div class="text-center mb-4">
+            <i class="bi bi-search fs-1 text-primary"></i>
+            <h4 class="fw-bold mt-2">Suivre une demande</h4>
+            <p class="text-muted">Entrez votre numéro de suivi pour connaître l'état de votre dossier</p>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <form asp-action="Suivi" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-hash"></i></span>
+                        <input asp-for="NumeroSuivi" class="form-control form-control-lg"
+                               placeholder="GAB-2024-00001"
+                               style="font-family: 'Courier New', monospace; letter-spacing: 2px;" />
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-search me-2"></i>Rechercher
+                        </button>
+                    </div>
+                    <span asp-validation-for="NumeroSuivi" class="text-danger small"></span>
+                </form>
+            </div>
+        </div>
+
+        @if (Model.RechercheEffectuee)
+        {
+            @if (Model.Resultat == null)
+            {
+                <div class="alert alert-warning text-center">
+                    <i class="bi bi-exclamation-triangle fs-4 d-block mb-2"></i>
+                    Aucune demande trouvée pour le numéro <strong>@Model.NumeroSuivi</strong>.
+                    <div class="small mt-1">Vérifiez le format : GAB-AAAA-NNNNN</div>
+                </div>
+            }
+            else
+            {
+                var r = Model.Resultat;
+                var (clsBadge, txtStatut, icoStatut) = r.Statut switch
+                {
+                    StatutDemande.EnAttente => ("badge-en-attente", "En attente", "bi-hourglass"),
+                    StatutDemande.EnCours   => ("badge-en-cours",   "En cours",   "bi-arrow-repeat"),
+                    StatutDemande.Pret      => ("badge-pret",       "Prêt",       "bi-check-circle"),
+                    StatutDemande.Rejete    => ("badge-rejete",      "Rejeté",     "bi-x-circle"),
+                    _                       => ("bg-secondary",      "Inconnu",    "bi-question")
+                };
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                        <span class="numero-suivi">@r.NumeroSuivi</span>
+                        <span class="badge @clsBadge fs-6 px-3 py-2">
+                            <i class="bi @icoStatut me-1"></i>@txtStatut
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="text-muted small">Type d'acte</div>
+                                <div class="fw-semibold">@r.TypeActeLibelle</div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-muted small">Demandeur</div>
+                                <div class="fw-semibold">@r.PrenomDemandeur @r.NomDemandeur</div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-muted small">Date de soumission</div>
+                                <div>@r.DateSoumission.ToString("dd/MM/yyyy")</div>
+                            </div>
+                            @if (r.DateMiseAJour.HasValue)
+                            {
+                                <div class="col-md-6">
+                                    <div class="text-muted small">Dernière mise à jour</div>
+                                    <div>@r.DateMiseAJour.Value.ToString("dd/MM/yyyy")</div>
+                                </div>
+                            }
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(r.CommentaireAgent))
+                        {
+                            <hr />
+                            <div class="small text-muted mb-1">Message de l'agent</div>
+                            <p class="mb-0">@r.CommentaireAgent</p>
+                        }
+
+                        @if (r.Statut == StatutDemande.Pret)
+                        {
+                            <div class="alert alert-success mt-3 mb-0">
+                                <i class="bi bi-check-circle me-2"></i>
+                                <strong>Votre document est prêt !</strong>
+                                Vous pouvez venir le retirer au guichet avec votre numéro de suivi.
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
